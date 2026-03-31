@@ -39,8 +39,8 @@ def generate_report(all_tasks, title):
         message_content += f"## {school_name} ~ {course_name}\n"
         message_content += f"     {task['title']}\n"
         message_content += f"     Due: `{due_string}`\n\n"
-    message_content += f"{tasks_omitted} tasks omitted based on keywords.\n"
-    print(f"{tasks_omitted} tasks omitted based on keywords.\n")
+    message_content += f"{tasks_omitted} tasks omitted based on pre-set keywords.\n"
+    print(f"{tasks_omitted} tasks omitted based on pre-set keywords.\n")
     if (stopped_early):
         message_content += "Message truncated due to Discord character limit. Please check your Canvas accounts for the full list of tasks."
         print("Message truncated")

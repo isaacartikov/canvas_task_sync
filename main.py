@@ -2,6 +2,7 @@ import os
 from zoneinfo import ZoneInfo
 import requests
 from dotenv import load_dotenv
+import notifiers
 import provider
 from datetime import timedelta,datetime
 
@@ -27,22 +28,4 @@ ping_msg=""
 if local_time-now<timedelta(days=1):
     ping_msg=f"<@{os.getenv('DISCORD_USER_ID')}>, you have assignments that are overdue/due within 24 hours." #ping the user if there are any tasks due within 24 hours.
 
-
-message_content = report_generator.generate_report(all_tasks, "Upcoming Canvas Tasks") 
-webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
-
-payload = {
-    "content": ping_msg,
-    "embeds": [
-            {
-                "title": "Assignment Report",
-                "description": message_content,
-                "color": 10181046 # decimal code for Purple, you can change this to any color you like by using a different decimal code.
-            }
-        ]
-    }
-response = requests.post(webhook_url, json=payload)
-if response.status_code == 204:
-    print("Message sent")
-else:
-    print(f"Failed to send. Error: {response.status_code}")
+notifiers.send_discord_message(report_generator.generate_report(all_tasks,"Upcoming Canvas Tasks"), ping_msg)
