@@ -1,6 +1,5 @@
 import os
 from zoneinfo import ZoneInfo
-import requests
 from dotenv import load_dotenv
 import notifiers
 import provider
@@ -27,5 +26,7 @@ local_time = utc_time.astimezone(ZoneInfo(os.getenv("LOCAL_TIMEZONE"))) #Set tim
 ping_msg=""
 if local_time-now<timedelta(days=1):
     ping_msg=f"<@{os.getenv('DISCORD_USER_ID')}>, you have assignments that are overdue/due within 24 hours." #ping the user if there are any tasks due within 24 hours.
-
-notifiers.send_discord_message(report_generator.generate_report(all_tasks,"Upcoming Canvas Tasks"), ping_msg)
+if now.hour==8:
+    notifiers.send_email_message(report_generator.generate_report(all_tasks,"Email"))
+elif now.hour==17:
+    notifiers.send_discord_message(report_generator.generate_report(all_tasks,"Discord"), ping_msg)

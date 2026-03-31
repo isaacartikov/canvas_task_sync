@@ -25,7 +25,6 @@ def send_discord_message(message_content, ping_msg):
     else:
         print(f"Failed to send. Error: {response.status_code}")
 def send_email_message(message_content):
-    # Placeholder for email sending functionality. You can implement this using libraries like smtplib or services like SendGrid.
     if not message_content:
         return
     msg = EmailMessage()
@@ -35,8 +34,8 @@ def send_email_message(message_content):
     msg['To'] = os.getenv("EMAIL_RECEIVER")
 
     try:
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-            smtp.login(os.getenv("EMAIL_ACCOUNT"), os.getenv("EMAIL_APP_PASSWORD"))
-            smtp.send_message(msg)
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp: #Using Gmail's SMTP server
+            smtp.login(os.getenv("EMAIL_SENDER"), os.getenv("EMAIL_APP_PASSWORD")) #Login with email account and app password (you need to set this up in your Gmail account for security reasons)
+            smtp.send_message(msg) 
     except Exception as e:
         print(f"Failed to send email. Error: {e}")
