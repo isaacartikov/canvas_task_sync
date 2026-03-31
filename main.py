@@ -1,3 +1,4 @@
+import keyword
 import os
 import requests
 from dotenv import load_dotenv
@@ -29,10 +30,20 @@ Canvas_provider_two = provider.CanvasProvider(os.getenv("INSTITUTION_TWO_NAME"),
 all_tasks = Canvas_provider_one.get_upcoming_tasks() + Canvas_provider_two.get_upcoming_tasks()
 all_tasks.sort(key=lambda x: x['due_at'] if x['due_at'] else '9999')
 print(f"\n {len(all_tasks)} tasks found.\n")
+omit_keywords=[]
+keywords=os.getenv("OMIT_KEYWORD_TASKS")
+if keywords:
+    omit_keywords=[word.strip().lower() for word in keywords.split(",")]
+tasks_omitted=0
 for task in all_tasks:
+    if any(keyword in task['title'].lower() for keyword in omit_keywords):
+        tasks_omitted+=1
+        print()
+        continue
     school_name = task['school']
     course_name = task['course']
     time = datetime.strptime(task['due_at'], "%Y-%m-%dT%H:%M:%SZ")
     print(f"{school_name} ~ {course_name}")
     print(f"   {task['title']}")
     print(f"   Due: {time.strftime('%A, %b %d at %I:%M %p')}\n")
+print(f"{tasks_omitted} tasks ommitted based on keywords.")
