@@ -1,6 +1,6 @@
 import requests
 
-def check_school(label, url, token):
+    def check_school(label, url, token):
     headers = {"Authorization": f"Bearer {token}"}
     try:
         response = requests.get(f"{url}/api/v1/users/self",headers = headers)
@@ -43,3 +43,4 @@ class CanvasProvider:
         except Exception as e:
             print(f"{self.institution_name} Error: {e}")
             return None
+     
