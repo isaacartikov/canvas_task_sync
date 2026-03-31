@@ -1,12 +1,24 @@
 import requests
 
+def check_school(label, url, token):
+    headers = {"Authorization": f"Bearer {token}"}
+    try:
+        response = requests.get(f"{url}/api/v1/users/self",headers = headers)
+        if response.status_code == 200:
+            name=response.json().get('name')
+            print(f"{label} connection successful, name is: {name}")
+        else:
+            print(f"{label} connection failed, status:{response.status_code}")
+    except Exception as e:
+        print(f"{label} Error: {e}")
+
 class CanvasProvider:
     def __init__(self, institution_name,url,token):
         self.institution_name = institution_name
         self.url = url
         self.token = token
         self.headers= {"Authorization": f"Bearer {token}"}
-
+    
     def get_upcoming_tasks(self):
         try:
             response = requests.get(f"{self.url}/api/v1/users/self/todo", headers=self.headers)
