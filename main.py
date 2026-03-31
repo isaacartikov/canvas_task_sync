@@ -4,6 +4,8 @@ import requests
 from dotenv import load_dotenv
 import provider
 from datetime import timedelta,datetime
+
+import report_generator
 load_dotenv()
 
 provider.check_school(os.getenv("INSTITUTION_ONE_NAME"), os.getenv("INSTITUTION_ONE_URL"), os.getenv("INSTITUTION_ONE_TOKEN"))
@@ -23,10 +25,10 @@ utc_time = datetime.strptime(all_tasks[0]['due_at'], "%Y-%m-%dT%H:%M:%SZ").repla
 local_time = utc_time.astimezone(ZoneInfo(os.getenv("LOCAL_TIMEZONE"))) #Set timezone from .env
 ping_msg=""
 if local_time-now<timedelta(days=1):
-    ping_msg=f"<@{os.getenv('DISCORD_USER_ID')}>, Tasks due within 24 hours!" #ping the user if there are any tasks due within 24 hours.
+    ping_msg=f"<@{os.getenv('DISCORD_USER_ID')}>, you have assignments that are overdue/due within 24 hours." #ping the user if there are any tasks due within 24 hours.
 
 
-message_content = provider.generate_report(all_tasks, "Upcoming Canvas Tasks") 
+message_content = report_generator.generate_report(all_tasks, "Upcoming Canvas Tasks") 
 webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
 
 payload = {
