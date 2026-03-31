@@ -4,6 +4,9 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 def generate_report(all_tasks, output):
+    large_header=""
+    smaller_header=""
+    smallest_header=""
     if output=="Discord":
         large_header="#"
         smaller_header="##"

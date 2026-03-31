@@ -27,6 +27,13 @@ ping_msg=""
 if local_time-now<timedelta(days=1):
     ping_msg=f"<@{os.getenv('DISCORD_USER_ID')}>, you have assignments that are overdue/due within 24 hours." #ping the user if there are any tasks due within 24 hours.
 if now.hour==8:
-    notifiers.send_email_message(report_generator.generate_report(all_tasks,"Email"))
+    if (not os.getenv("EMAIL_SENDER") or not os.getenv("EMAIL_PASSWORD") or not os.getenv("EMAIL_RECEIVER")):
+        print("EMAIL_ADDRESS, EMAIL_PASSWORD, or EMAIL_RECEIVER not set, skipping email notification.")
+    else:
+        notifiers.send_email_message(report_generator.generate_report(all_tasks,"Email"))
+
 elif now.hour==17:
-    notifiers.send_discord_message(report_generator.generate_report(all_tasks,"Discord"), ping_msg)
+    if (not os.getenv("DISCORD_WEBHOOK_URL") or not os.getenv("DISCORD_USER_ID")):
+        print("DISCORD_WEBHOOK_URL or DISCORD_USER_ID not set, skipping Discord notification.")
+    else:
+        notifiers.send_discord_message(report_generator.generate_report(all_tasks,"Discord"), ping_msg)
