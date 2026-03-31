@@ -1,8 +1,8 @@
 # Canvas to Discord Notification Tool for Dual Enrollment
 Python-based tool that collects data from two Canvas instances and sends a clear and concise summary through Discord.
 
-I made this because I am taking college-level classes through a community college, and logging in just to check when things are due each time is annoying.
-Also, we aren't allowed to have our phones in class. So I couldn't even check my assignments in class if I wanted to.
+I made this because I am taking college-level classes through a community college, and logging in just to check when things are due each time is annoying. Im also rather forgetful, so this helps remind me to do my assignments.
+Also, we aren't allowed to have our phones in school. So I couldn't even check my assignments in class if I wanted to.
 
 ## Features:
 **Multi-Institution Support** ~ Pulls data from multiple school APIs.
@@ -29,4 +29,5 @@ OMIT_KEYWORD_TASKS=notes,textbook,reading,optional
 LOCAL_TIMEZONE="America/Chicago"
 
 DISCORD_WEBHOOK_URL=webhook_here
+
 ```
