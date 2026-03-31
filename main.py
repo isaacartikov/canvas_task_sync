@@ -19,25 +19,28 @@ all_tasks.sort(key=lambda x: x['due_at'] if x['due_at'] else '9999') # Sort by d
 
 now = datetime.now(ZoneInfo(os.getenv("LOCAL_TIMEZONE")))
 
-if all_tasks[0]['due_at']: #since all_tasks is sorted, the first index is the earliest due date. 
-    first_due_date = datetime.fromisoformat(all_tasks[0]['due_at'].replace("Z", "+00:00")).astimezone(ZoneInfo(os.getenv("LOCAL_TIMEZONE")))
-    if first_due_date - now < timedelta(hours=24):
-        message_content = provider.generate_report(all_tasks, "Upcoming Canvas Tasks") 
-        webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
-        
-        payload = {
-            "embeds": [
-                {
-                    "title": "Assignment Report",
-                    "description": message_content,
-                    "color": 10181046 # decimal code for Purple, you can change this to any color you like by using a different decimal code.
-                }
-            ]
-        }
-        response = requests.post(webhook_url, json=payload)
-        if response.status_code == 204:
-            print("Message sent")
-        else:
-            print(f"Failed to send. Error: {response.status_code}")
-    else:
-        print("No tasks due within 24 hours, discord message not sent.")
+utc_time = datetime.strptime(all_tasks[0]['due_at'], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=ZoneInfo("UTC")) #Parse UTC String
+local_time = utc_time.astimezone(ZoneInfo(os.getenv("LOCAL_TIMEZONE"))) #Set timezone from .env
+ping_msg=""
+if local_time-now<timedelta(days=1):
+    ping_msg=f"<@{os.getenv('DISCORD_USER_ID')}>, Tasks due within 24 hours!" #ping the user if there are any tasks due within 24 hours.
+
+
+message_content = provider.generate_report(all_tasks, "Upcoming Canvas Tasks") 
+webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+
+payload = {
+    "content": ping_msg,
+    "embeds": [
+            {
+                "title": "Assignment Report",
+                "description": message_content,
+                "color": 10181046 # decimal code for Purple, you can change this to any color you like by using a different decimal code.
+            }
+        ]
+    }
+response = requests.post(webhook_url, json=payload)
+if response.status_code == 204:
+    print("Message sent")
+else:
+    print(f"Failed to send. Error: {response.status_code}")

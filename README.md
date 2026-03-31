@@ -30,4 +30,5 @@ LOCAL_TIMEZONE="America/Chicago"
 
 DISCORD_WEBHOOK_URL=webhook_here
 
+DISCORD_USER_ID=id_here
 ```
