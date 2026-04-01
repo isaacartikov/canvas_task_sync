@@ -25,9 +25,13 @@ ping_msg=""
 
 discord_hour=int(os.getenv("DISCORD_REMINDER_TIME" ) or "18".strip() or "18") 
 email_hour=int(os.getenv("EMAIL_REMINDER_TIME") or "8".strip() or "8") 
+
 print(f"DEBUG: System Hour: {now.hour} | Target Email Hour: {email_hour} | Target Discord Hour: {discord_hour}")
+
 if local_time-now<timedelta(days=1) and os.getenv("DISCORD_USER_ID"): 
     ping_msg=f"<@{os.getenv('DISCORD_USER_ID')}>, you have assignments that are overdue/due within 24 hours." 
+
+    
 if now.hour==email_hour: #Send email at the specified time, but can be set in .env
     if (not os.getenv("EMAIL_SENDER") or not os.getenv("EMAIL_APP_PASSWORD") or not os.getenv("EMAIL_RECEIVER")):
         print(f"SENDER: {os.getenv('EMAIL_SENDER')}, PASS: {os.getenv('EMAIL_APP_PASSWORD')}, RCV: {os.getenv('EMAIL_RECEIVER')}")

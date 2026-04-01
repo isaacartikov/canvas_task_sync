@@ -46,7 +46,7 @@ def generate_report(all_tasks, Discord):
             due_string += f" (in {time_left.seconds//3600} hours and {(time_left.seconds//60)%60} minutes)"
             
         message_content += f"{smaller_header} {school_name} ~ {course_name}\n"
-        if Discord:
+        if Discord and os.getenv("LINK_DISCORD_MESSAGES", "True").lower()=="true": # Option to disable hyperlinks in Discord messages if they cause issues for the user.
             message_content += f"     [{task['title']}]({task_url})\n"
         else:
             message_content += f"     {task['title']}\n"
@@ -57,7 +57,7 @@ def generate_report(all_tasks, Discord):
     message_content += f"{tasks_omitted} tasks omitted based on pre-set keywords.\n"
     print(f"{tasks_omitted} tasks omitted based on pre-set keywords.\n")
     if (stopped_early):
-        message_content += "Message truncated due to Discord character limit. Please check your Canvas accounts for the full list of tasks."
+        message_content += "Message truncated due to Discord character limit. Please check your Canvas accounts and/or disable linking in Discord messages to see the full report.\n"
         print("Message truncated")
     message_content += f"{smallest_header} -- End of Message --"
     return message_content
