@@ -7,6 +7,7 @@ load_dotenv()
 
 def send_discord_message(message_content, ping_msg):
     if not message_content:
+        print("DEBUG: message_content was EMPTY. Skipping send.")
         return
     webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
     payload = {
@@ -26,6 +27,7 @@ def send_discord_message(message_content, ping_msg):
         print(f"Failed to send. Error: {response.status_code}")
 def send_email_message(message_content):
     if not message_content:
+        print("DEBUG: message_content was EMPTY. Skipping send.")
         return
     msg = EmailMessage()
     msg.set_content(message_content)

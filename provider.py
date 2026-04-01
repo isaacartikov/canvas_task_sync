@@ -1,3 +1,5 @@
+import os
+
 import requests
 
 def check_school(label, url, token):
@@ -28,8 +30,16 @@ class CanvasProvider:
                 for item in data:
                     if 'assignment' in item:
                         current_assignment_data=item['assignment']
+                        course_id = current_assignment_data.get('course_id')
+                        assignment_id = current_assignment_data.get('id')
+                        html_url = current_assignment_data.get('html_url') #
+                        if not html_url:
+                            school_url = "NO LINK AVAILABLE"
+                            html_url = f"{school_url}/courses/{course_id}/assignments/{assignment_id}"
+
                         task = {
                             'school': self.institution_name,
+                            'link': html_url,
                             'course': item.get('context_name'),
                             'title': current_assignment_data.get('name'),
                             'due_at': current_assignment_data.get('due_at'),
