@@ -37,8 +37,6 @@ EMAIL_SENDER=youraccount@example.com
 EMAIL_RECEIVER=youraccount@example.com
 EMAIL_APP_PASSWORD=16_digit_code_here
 
-EMAIL_REMINDER_TIME=8
-DISCORD_REMINDER_TIME=17
 
 LINK_DISCORD_MESSAGES=True
 

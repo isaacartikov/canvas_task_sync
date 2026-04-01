@@ -13,7 +13,7 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 jobs:
   build:
-    runs-on: windows-latest # You can change this to 'ubuntu-latest' or 'macos-latest' if you prefer, but make sure to adjust the Python setup accordingly.
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -30,7 +30,7 @@ jobs:
 
       - name: Run script
         env:
-          # This maps your GitHub Secrets to the script
+          # This maps GitHub Secrets to the script
           INSTITUTION_ONE_NAME: ${{ secrets.INSTITUTION_ONE_NAME }}
           INSTITUTION_ONE_TOKEN: ${{ secrets.INSTITUTION_ONE_TOKEN }}
           INSTITUTION_ONE_URL: ${{ secrets.INSTITUTION_ONE_URL }}
@@ -43,8 +43,6 @@ jobs:
           EMAIL_RECEIVER: ${{ secrets.EMAIL_RECEIVER }}
           EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
           LOCAL_TIMEZONE: ${{ secrets.LOCAL_TIMEZONE }}
-          EMAIL_REMINDER_TIME: ${{ secrets.EMAIL_REMINDER_TIME }}
-          DISCORD_REMINDER_TIME: ${{ secrets.DISCORD_REMINDER_TIME }}
           LINK_DISCORD_MESSAGES: ${{ secrets.LINK_DISCORD_MESSAGES }}
         
         run: python main.py

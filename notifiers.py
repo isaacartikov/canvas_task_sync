@@ -31,7 +31,7 @@ def send_email_message(message_content):
         return
     msg = EmailMessage()
     msg.set_content(message_content)
-    msg['Subject'] = 'Canvas Assignment Morning Report'
+    msg['Subject'] = 'Canvas Assignment Email Report'
     msg['From'] = os.getenv("EMAIL_SENDER")
     msg['To'] = os.getenv("EMAIL_RECEIVER")
 
