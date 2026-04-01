@@ -16,10 +16,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 
         with:
           python-version: '3.10'
 
@@ -45,4 +45,6 @@ jobs:
           LOCAL_TIMEZONE: ${{ secrets.LOCAL_TIMEZONE }}
           EMAIL_REMINDER_TIME: ${{ secrets.EMAIL_REMINDER_TIME }}
           DISCORD_REMINDER_TIME: ${{ secrets.DISCORD_REMINDER_TIME }}
+          LINK_DISCORD_MESSAGES: ${{ secrets.LINK_DISCORD_MESSAGES }}
+
         run: python main.py
