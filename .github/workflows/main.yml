@@ -13,14 +13,14 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest # You can change this to 'ubuntu-latest' or 'macos-latest' if you prefer, but make sure to adjust the Python setup accordingly.
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v4 #latest version
 
       - name: Set up Python
-        uses: actions/setup-python@v5 
+        uses: actions/setup-python@v5 #latest version 
         with:
           python-version: '3.10'
 
@@ -47,5 +47,5 @@ jobs:
           EMAIL_REMINDER_TIME: ${{ secrets.EMAIL_REMINDER_TIME }}
           DISCORD_REMINDER_TIME: ${{ secrets.DISCORD_REMINDER_TIME }}
           LINK_DISCORD_MESSAGES: ${{ secrets.LINK_DISCORD_MESSAGES }}
-
+        
         run: python main.py
